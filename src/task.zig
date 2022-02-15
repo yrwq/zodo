@@ -3,16 +3,17 @@ const std = @import("std");
 // Represents a single task
 pub const Task = struct {
     // TODO: id
-    name: []const u8 = "task",
+    name: []u8,
     done: bool = false,
 
     const Self = @This();
 
-
-    pub fn init(name: []const u8) Self {
+    // Initialize a new task
+    pub fn init(name: []u8) Self {
         return Task {
             .name = name,
             .done = false,
         };
     }
+
 };
