@@ -16,8 +16,6 @@ pub fn main() anyerror!void {
 
         // initialize a new todo list
         todo = Todo.init(std.heap.page_allocator);
-        // load the already existing data to the todo list
-        try todo.load_data("example");
 
         // add the initialized task to the todo list
         try todo.add(task);
