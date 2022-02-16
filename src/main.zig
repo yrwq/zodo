@@ -10,13 +10,23 @@ pub fn main() anyerror!void {
 
     if (std.os.argv.len >= 2) {
         const arg = std.mem.span(std.os.argv[1]);
+
+        // initialize a new task
         task = Task.init(arg);
+
+        // initialize a new todo list
         todo = Todo.init(std.heap.page_allocator);
+        // load the already existing data to the todo list
+        try todo.load_data("example");
+
+        // add the initialized task to the todo list
         try todo.add(task);
 
+        // print each todo item
         for (todo.list.items) |item| {
             std.debug.print("{s}", .{item.name});
         }
+
     } else {
         usage();
     }
