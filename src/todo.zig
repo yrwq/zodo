@@ -36,6 +36,7 @@ pub const Todo = struct {
     pub fn parse_data(self: *Self) !void {
         for (self.data.items) |line| {
             std.debug.print("{s}\n", .{line});
+            if (std.mem.eql(u8, line, ';');
         }
     }
 
