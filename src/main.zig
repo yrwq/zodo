@@ -21,17 +21,18 @@ pub fn main() anyerror!void {
 
         // load data
         try todo.load_data("example");
+        try todo.parse_data();
 
         // add the initialized task to the todo list
         try todo.add(task);
 
         // print each todo item
-        for (todo.list.items) |item| {
-            std.debug.print("{s} - {s}\n", .{item.name, item.done});
-        }
+        // for (todo.list.items) |item| {
+        //     std.debug.print("{s} - {s}\n", .{item.name, item.done});
+        // }
 
-        std.debug.print("{s}\n", .{todo.data_path});
-        std.debug.print("{s}\n", .{todo.data});
+        // std.debug.print("{s}\n", .{todo.data_path});
+        // std.debug.print("{s}\n", .{todo.data});
 
     } else {
         usage();

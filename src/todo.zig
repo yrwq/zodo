@@ -2,13 +2,14 @@ const std = @import("std");
 const Task = @import("task.zig").Task;
 
 pub const TaskList = std.ArrayList(Task);
+pub const StrList = std.ArrayList([]u8);
 pub const max_size = 1 * 1024 * 1024;
 
 pub const Todo = struct {
     alloc: std.mem.Allocator,
     list: TaskList,
     data_path: []const u8,
-    data: ?[]u8,
+    data: StrList,
     // TODO config
     
     const Self = @This();
@@ -18,7 +19,7 @@ pub const Todo = struct {
             .alloc = allocator,
             .list = TaskList.init(allocator),
             .data_path = undefined,
-            .data = undefined,
+            .data = StrList.init(allocator),
         };
     }
 
@@ -26,9 +27,16 @@ pub const Todo = struct {
         const file = try std.fs.cwd().openFile(path, .{});
         defer file.close();
 
-        const content = try file.reader().readUntilDelimiterOrEofAlloc(self.alloc, '\n', 1024*1024);
         self.data_path = path;
-        self.data = content;
+        while(try file.reader().readUntilDelimiterOrEofAlloc(self.alloc, '\n', 1024*1024)) |line| {
+            try self.data.append(line);
+        }
+    }
+
+    pub fn parse_data(self: *Self) !void {
+        for (self.data.items) |line| {
+            std.debug.print("{s}\n", .{line});
+        }
     }
 
     pub fn add(self: *Self, t: Task) !void {
