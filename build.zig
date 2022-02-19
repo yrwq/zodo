@@ -6,6 +6,7 @@ pub fn build(b: *std.build.Builder) void {
 
     const exe = b.addExecutable("zodo", "src/main.zig");
 
+    exe.linkLibC();
     exe.setTarget(target);
     exe.setBuildMode(mode);
     exe.install();
