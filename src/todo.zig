@@ -35,12 +35,13 @@ pub const Todo = struct {
     }
 
     pub fn parse_data(self: *Self) !void {
-        var id: u8 = 0;
-        var done: u8 = 0;
-        var name: CharList = CharList.init(self.alloc);
 
         for (self.data.items) |line| {
-            std.debug.print("{s}\n", .{line});
+
+            var id: u8 = 0;
+            var done: u8 = 0;
+            var name: CharList = CharList.init(self.alloc);
+
             id = line[0];
             done = line[2];
 
@@ -50,11 +51,14 @@ pub const Todo = struct {
             while (i < line.len) : (i += 1) {
                 try name.append(line[i]);
             }
+            
+            var t: Task = Task.init(name, id, done);
+            try self.add(t);
         }
 
-        std.debug.print("id : {c}\n", .{id});
-        std.debug.print("done : {c}\n", .{done});
-        std.debug.print("name : {s}\n", .{name.items});
+        // std.debug.print("id : {c}\n", .{id});
+        // std.debug.print("done : {c}\n", .{done});
+        // std.debug.print("name : {s}\n", .{name.items});
     }
 
     pub fn add(self: *Self, t: Task) !void {
