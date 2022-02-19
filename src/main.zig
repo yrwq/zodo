@@ -2,6 +2,7 @@ const std = @import("std");
 const Task = @import("task.zig").Task;
 const Todo = @import("todo.zig").Todo;
 
+
 fn usage() void {}
 
 pub fn main() anyerror!void {
@@ -21,10 +22,12 @@ pub fn main() anyerror!void {
 
         // load data
         try todo.load_data("example");
+
+        try todo.add(task);
+
         try todo.parse_data();
 
         // add the initialized task to the todo list
-        try todo.add(task);
 
         // print each todo item
         // for (todo.list.items) |item| {

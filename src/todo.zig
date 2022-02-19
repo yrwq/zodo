@@ -3,6 +3,7 @@ const Task = @import("task.zig").Task;
 
 pub const TaskList = std.ArrayList(Task);
 pub const StrList = std.ArrayList([]u8);
+pub const CharList = std.ArrayList(u8);
 pub const max_size = 1 * 1024 * 1024;
 
 pub const Todo = struct {
@@ -11,11 +12,11 @@ pub const Todo = struct {
     data_path: []const u8,
     data: StrList,
     // TODO config
-    
+
     const Self = @This();
 
     pub fn init(allocator: std.mem.Allocator) Self {
-        return Todo {
+        return Todo{
             .alloc = allocator,
             .list = TaskList.init(allocator),
             .data_path = undefined,
@@ -28,24 +29,32 @@ pub const Todo = struct {
         defer file.close();
 
         self.data_path = path;
-        while(try file.reader().readUntilDelimiterOrEofAlloc(self.alloc, '\n', 1024*1024)) |line| {
+        while (try file.reader().readUntilDelimiterOrEofAlloc(self.alloc, '\n', 1024 * 1024)) |line| {
             try self.data.append(line);
         }
     }
 
     pub fn parse_data(self: *Self) !void {
+        var id: u8 = 0;
+        var done: u8 = 0;
+        var name: CharList = CharList.init(self.alloc);
+
         for (self.data.items) |line| {
             std.debug.print("{s}\n", .{line});
+            id = line[0];
+            done = line[2];
 
-            // iterate each character in the current line
-            var i: usize = 0;
+            // iterate each character in the current line,
+            // from the start of the name
+            var i: usize = 4;
             while (i < line.len) : (i += 1) {
-                if (line[i] == ';') {
-                    // found a ;
-                }
+                try name.append(line[i]);
             }
-
         }
+
+        std.debug.print("id : {c}\n", .{id});
+        std.debug.print("done : {c}\n", .{done});
+        std.debug.print("name : {s}\n", .{name.items});
     }
 
     pub fn add(self: *Self, t: Task) !void {
