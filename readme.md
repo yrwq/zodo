@@ -6,6 +6,4 @@
 
 ### example data syntax
 
-<h4 align="center">
-    <img src=".assets/data-syntax.png>
-</h4>
+![example data syntax](.assets/data-syntax.png)
