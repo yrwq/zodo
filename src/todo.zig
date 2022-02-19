@@ -1,17 +1,21 @@
 const std = @import("std");
 const Task = @import("task.zig").Task;
 
+// list of tasks
 pub const TaskList = std.ArrayList(Task);
+// list of strings
 pub const StrList = std.ArrayList([]u8);
+// list of characters (managing strings easier)
 pub const CharList = std.ArrayList(u8);
-pub const max_size = 1 * 1024 * 1024;
 
+// Represents a task list
 pub const Todo = struct {
     alloc: std.mem.Allocator,
+    // list of tasks
     list: TaskList,
+    // TODO path of data to be loaded
     data_path: []const u8,
     data: StrList,
-    // TODO config
 
     const Self = @This();
 
@@ -35,7 +39,6 @@ pub const Todo = struct {
     }
 
     pub fn parse_data(self: *Self) !void {
-
         for (self.data.items) |line| {
 
             var id: u8 = 0;
@@ -52,13 +55,10 @@ pub const Todo = struct {
                 try name.append(line[i]);
             }
             
+            // add each line as a task to the todo list
             var t: Task = Task.init(name, id, done);
             try self.add(t);
         }
-
-        // std.debug.print("id : {c}\n", .{id});
-        // std.debug.print("done : {c}\n", .{done});
-        // std.debug.print("name : {s}\n", .{name.items});
     }
 
     pub fn add(self: *Self, t: Task) !void {
