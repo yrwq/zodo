@@ -1,8 +1,8 @@
 ### todo
 
 - [X] read a data file
-- [] also parse data file
-- [] parse command line args
+- [X] also parse data file
+- [ ] parse command line args
 
 #### notes
 
