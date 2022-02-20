@@ -56,6 +56,7 @@ pub const Todo = struct {
             }
             
             // add each line as a task to the todo list
+            // TODO get id
             var t: Task = Task.init(name, id, done);
             try self.add(t);
         }

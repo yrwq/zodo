@@ -1,2 +1,2 @@
-0 1 a simple done task with id of 0
-1 0 a simple undone task with id of 1
+0 t a simple done task with id of 0
+1 f a simple undone task with id of 1

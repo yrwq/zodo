@@ -6,7 +6,7 @@ pub const CharList = std.ArrayList(u8);
 pub const Task = struct {
     id: u8 = 0,
     name: CharList,
-    done: u8 = 0,
+    done: u8,
 
     const Self = @This();
 
